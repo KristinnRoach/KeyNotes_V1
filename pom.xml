@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>keynotes</groupId>
+    <artifactId>KeyNotes</artifactId>
+    <version>1.0</version>
+    <name>KeyNotes</name>
+    <packaging>jar</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>5.9.1</junit.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>19.0.2.1</version>
+        </dependency>
+
+        <!-- bætti við fyrir audio -->
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>19</version>
+        </dependency>
+
+        <!-- bætti við fyrir audio -->
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>19.0.2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>jpackage</id>
+            <url>https://github.com/Akman/jpackage-maven-plugin</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
+                <configuration>
+                    <source>19</source>
+                    <target>19</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>keynotes.vidmot.Start</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>create-runtime-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jlink</goal>
+                        </goals>
+                        <configuration>
+                            <launcher>KeyNotes</launcher>
+                            <mainClass>keynotes.vidmot.Start</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>keynotes.vidmot.Start</mainClass>
+                        </manifest>
+                        <manifestEntries>
+                            <Automatic-Module-Name>KeyNotes</Automatic-Module-Name>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+
+
+            <!--
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jlink-plugin</artifactId>
+                <version>3.1.0</version>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <id>create-runtime-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jlink</goal>
+                        </goals>
+                        <configuration>
+                            <modulePaths>
+                                <modulePath>target/mods</modulePath>
+                                <modulePath>
+                                    /Users/kristinnroachgunnarsson/Desktop/KiddApp/IntellijProjects/KeyNotes/target
+                                </modulePath>
+                            </modulePaths>
+                            <modules>
+                                <module>KeyNotes</module>
+                            </modules>
+                            <launcher>launch=keynotes.vidmot.Start</launcher>
+                            <outputDirectory>
+                                /Users/kristinnroachgunnarsson/Desktop/KiddApp/IntellijProjects/KeyNotes/target/jlink-image
+                            </outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.github.akman</groupId>
+                <artifactId>maven-jpackage-plugin</artifactId>
+                <version>0.1.5</version>
+
+                <configuration>
+                    <name>KeyNotes</name>
+                    <module>KeyNotes/keynotes.vidmot.Start</module>
+                    <modulePaths>
+                        <modulePath>target/mods</modulePath>
+                    </modulePaths>
+                    <runtimeImage>${java.home}</runtimeImage>
+
+                    <destination>target/dist</destination>
+
+                    <appImage>
+                        /Users/kristinnroachgunnarsson/Desktop/KiddApp/IntellijProjects/KeyNotes/target/jpackage-image
+                    </appImage>
+
+                    <javaOptions>
+                        <option>-enable-preview</option>
+                        <option>-Dfile.encoding=UTF-8</option>
+                    </javaOptions>
+
+                </configuration>
+
+                <executions>
+
+                    // mvn clean package jpackage:jpackage@mac
+                    <execution>
+                        <id>mac</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jpackage</goal>
+                        </goals>
+                        <configuration>
+                            <appImage>/Users/kristinnroachgunnarsson/Desktop/KiddApp/IntellijProjects/KeyNotes/target/jpackage-image</appImage>
+                        </configuration>
+                    </execution>
+
+                    // mvn clean package jpackage:jpackage@win
+                    <execution>
+                        <id>win</id>
+                        <configuration>
+                            <icon>icons/icon.ico</icon>
+                            <winMenu>true</winMenu>
+                        </configuration>
+                    </execution>
+
+                </executions>
+            </plugin>
+            -->
+
+        </plugins>
+    </build>
+</project>

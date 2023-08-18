@@ -1,0 +1,27 @@
+/*
+    synchronized void LOOPTEST(SamplePlayer player){
+        while (Status.isLoopOn && player.isLooping) {
+            if(fadeOutLength - System.currentTimeMillis() == fadeOutLength) {
+                player.replay();
+                timeline.playFromStart();
+            }
+        }
+    }
+    private Timer timer;       // LONG ER EKKI KOMMU TALA BARA STÓR HEILTALA ÞANNIG DÓT FYRIR NEÐAN VAR EKKI AÐ MARKA, SKOÐA AFTUR EF NENNI
+
+    public void startLoop() {
+        long fadeLong = (long) fadeOutLength;
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new LoopTask(), fadeLong, fadeLong);
+    }
+
+    private class LoopTask extends TimerTask {
+        @Override
+        public void run() {
+            if (Status.isLoopOn && player.isLooping) {
+                player.replay();
+                replayFadeOut();
+            }
+        }
+    }
+    */

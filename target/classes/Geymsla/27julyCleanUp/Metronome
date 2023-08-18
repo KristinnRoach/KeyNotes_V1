@@ -1,0 +1,13 @@
+    /*
+    @FXML
+    private void onFxMetronomeReleased(KeyEvent e) {
+        if (e.getSource().equals(fxMetronome)) {
+            if (fxMetronome.isPressed()) {
+                playback.stopMetronome();
+                // fxMetronome.getStyleClass().remove("buttonPressed");
+            } else {
+                playback.playMetronome();
+                // fxMetronome.getStyleClass().add("buttonPressed");
+            }
+        }
+    } */
