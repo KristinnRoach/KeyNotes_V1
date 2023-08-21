@@ -45,15 +45,14 @@ public class Status {
          if (!isLoopLocked) {
              isLoopOn = isSpaceOn;
          } else if (isSpaceOn) {
-             if (isShiftDown) {
-                 isFreePlayOn = !isFreePlayOn;
-             } else if (isFreePlayOn) {
-                 isFreePlayOn = false;
+             if (isShiftDown || isSustainOn && !isFreePlayOn) {
+                 isFreePlayOn = true;
              } else {
-                 Playback.releaseCurrentlyLooping();
+                 Playback.releaseCurrentlyLooping(); // spurning hvort er þægilegra að sleppa eða hafa hér
+                 isFreePlayOn = false;
              }
+             System.out.println("Status.isFreePlayOn? : " + isFreePlayOn);
          }
-         System.out.println("Status.isFreePlayOn? : " + isFreePlayOn);
      }
 
     static void handleShift(boolean b) {

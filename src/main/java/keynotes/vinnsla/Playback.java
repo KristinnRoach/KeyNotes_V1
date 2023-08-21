@@ -51,8 +51,6 @@ public class Playback {
         return masterVolume;
     }
 
-    private static MediaPlayer metronome;
-
     private Playback() { throw new IllegalStateException("Utility class"); }
 
     // NEW VERSION OF importSamplePack() THAT SHOULD WORK WITH JARs

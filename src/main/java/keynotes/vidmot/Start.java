@@ -22,7 +22,7 @@ public class Start extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/keynotes/vidmot/keys-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 310);
+        Scene scene = new Scene(fxmlLoader.load(), 800, 300);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
         stage.setTitle("KeyNotes");
         stage.initStyle(StageStyle.TRANSPARENT);

@@ -36,7 +36,7 @@ public class Controller implements Initializable {
     private BorderPane fxBorderPane;
 
     @FXML
-    private Button fxTransUp, fxTransDown, fxTransReset;
+    private Button fxTransUp, fxTransDown;
 
     public ToggleButton getFxLoopLock() {
         return fxLoopLock;
@@ -51,7 +51,7 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    private ToggleButton fxShowNotes, fxMinorMajor, fxLoopLock, fxSustain, fxMetronome, fxDelay;
+    private ToggleButton fxShowNotes, fxMinorMajor, fxLoopLock, fxSustain, fxDelay;
 
     @FXML
     private Label fxRootNote, fxTempo;
@@ -73,9 +73,8 @@ public class Controller implements Initializable {
     @FXML
     private HBox topBar;
     @FXML
-    private Slider fxVolSlide;
-    @FXML
-    private Slider fxLengthSlide;
+    private Slider fxVolSlider, fxLoopLengthSlider, fxDecaySlider;
+
     private final KeyCode[] noteKeyCodes = { KeyCode.Z, KeyCode.X, KeyCode.C, KeyCode.V, KeyCode.B, KeyCode.N, KeyCode.M, KeyCode.COMMA, KeyCode.PERIOD, KeyCode.SLASH, KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.F, KeyCode.G, KeyCode.H, KeyCode.J, KeyCode.K, KeyCode.L, KeyCode.SEMICOLON, KeyCode.Q, KeyCode.W, KeyCode.E, KeyCode.R, KeyCode.T, KeyCode.Y, KeyCode.U, KeyCode.I, KeyCode.O, KeyCode.P, KeyCode.DIGIT1, KeyCode.DIGIT2, KeyCode.DIGIT3, KeyCode.DIGIT4, KeyCode.DIGIT5, KeyCode.DIGIT6, KeyCode.DIGIT7, KeyCode.DIGIT8, KeyCode.DIGIT9, KeyCode.DIGIT0 };
     private final Set<KeyCode> toolKeySet = Set.of(KeyCode.TAB, KeyCode.SHIFT, KeyCode.CAPS, KeyCode.SPACE, KeyCode.BACK_QUOTE);
     private boolean isArrowKey(KeyCode keyCode) {
@@ -113,8 +112,8 @@ public class Controller implements Initializable {
         setStyleClasses();
         addNoteNameListener();
 
-        setUpVolumeSlider(fxVolSlide);
-        setUpLengthSlider(fxLengthSlide);
+        setUpVolumeSlider(fxVolSlider);
+        setUpLengthSlider();
 
         TxtMethods.initialize();
 
@@ -126,16 +125,18 @@ public class Controller implements Initializable {
         setUpFocus();
     }
 
-
     private void addNoteNameListener() { // má vera í TxtMethods?
+
         transposition.addListener((observableValue, oldValue, newValue) -> {
             TxtMethods.setTransposition(getTransposition());
             TxtMethods.setNoteNames();
-            fxRootNote.setText("Root Note: " + TxtMethods.getRootNote());
+            String minorMajor = isMajor.get() ? "Major" : "minor";
+            fxRootNote.setText(TxtMethods.getRootNote() + " " + minorMajor);
         });
         isMajor.addListener((observableValue, oldValue, newValue) -> {
             TxtMethods.setNoteNames();
-            fxRootNote.setText("Root Note: " + TxtMethods.getRootNote());
+            String minorMajor = isMajor.get() ? "Major" : "minor";
+            fxRootNote.setText(TxtMethods.getRootNote() + " " + minorMajor);
         });
     }
 
@@ -149,13 +150,11 @@ public class Controller implements Initializable {
         fxTransUp.setFocusTraversable(false);
         fxTransDown.setFocusTraversable(false);
         fxTransDown.setFocusTraversable(false);
-        fxTransReset.setFocusTraversable(false);
         fxLoopLock.setFocusTraversable(false);
         fxQuit.setFocusTraversable(false);
         fxMinimize.setFocusTraversable(false);
-        fxMetronome.setFocusTraversable(false);
-        fxVolSlide.setFocusTraversable(false);
-        fxLengthSlide.setFocusTraversable(false);
+        fxVolSlider.setFocusTraversable(false);
+        fxLoopLengthSlider.setFocusTraversable(false);
         fxSustain.setFocusTraversable(false);
         fxDelay.setFocusTraversable(false);
     }
@@ -187,14 +186,12 @@ public class Controller implements Initializable {
 
        // fxBorderPane.getStyleClass().add("appBackgroundColor");
 
-        fxMetronome.getStyleClass().add("metronome");
         fxShowNotes.getStyleClass().add("showNotes");
 
         fxDelay.getStyleClass().add("toolbutton");
         fxSustain.getStyleClass().add("toolbutton");
         fxTransUp.getStyleClass().add("toolbutton");
         fxTransDown.getStyleClass().add("toolbutton");
-        fxTransReset.getStyleClass().add("toolbutton");
         fxMinorMajor.getStyleClass().add("toolbutton");
         fxLoopLock.getStyleClass().add("toolbutton");
 
@@ -227,6 +224,7 @@ public class Controller implements Initializable {
             handleNoteKeyPressed(keyCode);
         } else if (toolKeySet.contains(keyCode)) {
             ToolKeys.handleToolKeyPressed(keyCode, keyEvent);
+            if (keyCode == KeyCode.CAPS) {    }
         } else if (isArrowKey(keyCode)) {
             handleArrowKeys(keyCode, true);
         }
@@ -308,17 +306,6 @@ public class Controller implements Initializable {
     private void fxLoopLockHandler(ActionEvent event) {
         // playback.setLoopLocked(fxLoopLock.isSelected()); // virkar ekki, finna þægilegt system til að vinna með mouseclick vs keypress og listeners
     }
-    @FXML
-    private void onFxMetronomeMouseClick(MouseEvent e) {
-        if (fxMetronome.isSelected()) {
-         //   playback.stopMetronome();
-            fxMetronome.getStyleClass().remove("toolButtonSelected");
-        } else {
-            fxMetronome.getStyleClass().add("toolButtonSelected");
-       // playback.playMetronome();
-        }
-}
-
 
     @FXML
     private void transposeMouseClick(ActionEvent e) {
@@ -326,24 +313,25 @@ public class Controller implements Initializable {
         transposition.set((transposition.get() + 1) % (12));
     } else if (e.getSource().equals(fxTransDown)) {
         transposition.set((transposition.get() - 1) % (-12));
-    } else if (e.getSource().equals(fxTransReset)) {
-        transposition.set(0);
     }
-    if (!isMajor.get()) {
-        minorMajorButton(e);
     }
-        System.out.println(transposition.get());
+
+    @FXML
+    private void resetTransposition(MouseEvent mouseEvent) {
+        if(mouseEvent.isAltDown() || mouseEvent.getClickCount() == 2) {
+            transposition.set(0);
+        }
     }
 
 
     @FXML
     private void minorMajorButton(ActionEvent e) {
         if (isMajor.get()) {
-            fxMinorMajor.setText("Switch to Major");
+            fxMinorMajor.setText("◉︵◉");
             isMajor.set(false);
             fxMinorMajor.getStyleClass().add("toolButtonSelected");
         } else {
-            fxMinorMajor.setText("Switch to Minor");
+            fxMinorMajor.setText("ʘ‿ʘ");
             isMajor.set(true);
             fxMinorMajor.getStyleClass().remove("toolButtonSelected");
         }
@@ -387,16 +375,13 @@ public class Controller implements Initializable {
     }
 
 
-    public void setUpLengthSlider(Slider fxLengthSlide) {
-        // Set slider properties
-        fxLengthSlide.setBlockIncrement(1.0);
-        fxLengthSlide.setMin(1.0);
-        fxLengthSlide.setMax(8.0);
-        fxLengthSlide.setValue(4.0);
+    public void setUpLengthSlider() {
         PlayerTimeline.setCurrentSliderValue(4);
+        fxLoopLengthSlider.showTickLabelsProperty().setValue(true);
+        fxLoopLengthSlider.snapToTicksProperty().setValue(true); // why doesnt it snap?
 
         // Listener for note length changes
-        fxLengthSlide.valueProperty().addListener((observable, oldValue, newValue) -> {
+        fxLoopLengthSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             PlayerTimeline.setCurrentSliderValue(newValue.intValue());
             PlayerTimeline.setFadeOutLength();
         });

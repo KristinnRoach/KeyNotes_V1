@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="fxBorderPane" minHeight="155.0" minWidth="300.0" prefHeight="310.0" prefWidth="600.0" stylesheets="" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="keynotes.vidmot.Controller">
+<BorderPane fx:id="fxBorderPane" minHeight="155.0" minWidth="300.0" prefHeight="300.0" prefWidth="800.0" stylesheets="" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="keynotes.vidmot.Controller">
     <top>
         <VBox alignment="CENTER">
             <HBox fx:id="topBar" alignment="CENTER_LEFT" onDragDetected="#dragWindow" onMouseDragEntered="#dragWindow" prefHeight="32.0" BorderPane.alignment="TOP_CENTER">
@@ -37,32 +36,6 @@
                      <Font name="System Bold" size="11.0" />
                   </font>
                </Button>
-               <Label prefHeight="20.0" text="Note Length :" HBox.hgrow="ALWAYS">
-                  <HBox.margin>
-                     <Insets left="5.0" top="2.0" />
-                  </HBox.margin>
-               </Label>
-                    <Slider fx:id="fxLengthSlide" blockIncrement="1.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="100.0" value="100.0" HBox.hgrow="ALWAYS">
-                        <opaqueInsets>
-                            <Insets left="5.0" />
-                        </opaqueInsets>
-                        <HBox.margin>
-                            <Insets left="2.0" top="2.0" />
-                        </HBox.margin>
-                    </Slider>
-               <Label prefHeight="20.0" text="Volume :" HBox.hgrow="ALWAYS">
-                  <HBox.margin>
-                     <Insets left="5.0" top="2.0" />
-                  </HBox.margin>
-               </Label>
-                    <Slider fx:id="fxVolSlide" blockIncrement="1.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="100.0" value="100.0" HBox.hgrow="ALWAYS">
-                        <opaqueInsets>
-                            <Insets left="5.0" />
-                        </opaqueInsets>
-                        <HBox.margin>
-                            <Insets left="2.0" top="2.0" />
-                        </HBox.margin>
-                    </Slider>
                 </children>
                 <BorderPane.margin>
                     <Insets />
@@ -80,7 +53,7 @@
         </VBox>
     </top>
     <center>
-        <VBox fx:id="fxVboxKeyboard" alignment="CENTER" prefHeight="250.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+        <VBox fx:id="fxVboxKeyboard" alignment="CENTER" prefHeight="160.0" prefWidth="449.0" BorderPane.alignment="CENTER">
             <children>
                 <HBox alignment="CENTER" prefHeight="55.0" prefWidth="500.0">
                     <children>
@@ -325,76 +298,81 @@
                 </HBox>
             </children>
             <BorderPane.margin>
-                <Insets bottom="-10.0" top="-10.0" />
+                <Insets bottom="-32.0" />
             </BorderPane.margin>
-         <padding>
-            <Insets left="5.0" right="5.0" />
-         </padding>
         </VBox>
     </center>
    <bottom>
-       <HBox fx:id="fxBottomHbox" alignment="CENTER" prefHeight="32.0" BorderPane.alignment="CENTER_LEFT">
-           <Label fx:id="fxRootNote" alignment="CENTER" prefHeight="32.0" prefWidth="90.0" text="Root Note : C" HBox.hgrow="ALWAYS">
-               <HBox.margin>
-                   <Insets />
-               </HBox.margin>
-               <padding>
-                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding></Label>
-           <Button fx:id="fxTransDown" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#transposeMouseClick" prefHeight="32.0" prefWidth="32.0" text="-" HBox.hgrow="ALWAYS">
+       <HBox fx:id="fxBottomHbox" alignment="CENTER_LEFT" prefHeight="64.0" prefWidth="600.0" BorderPane.alignment="CENTER_LEFT">
+         <Label fx:id="fxTempo" onMouseClicked="#fxTempoMouseClicked" onMouseDragged="#fxTempoMouseDragged" prefWidth="80.0" text="120 bpm" HBox.hgrow="ALWAYS">
+            <HBox.margin>
+               <Insets left="20.0" />
+            </HBox.margin>
+         </Label>
+           <Label fx:id="fxRootNote" alignment="CENTER" onMouseClicked="#resetTransposition" prefHeight="32.0" prefWidth="85.0" text="C Major">
                <padding>
                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
-               <HBox.margin>
-                   <Insets left="5.0" />
-               </HBox.margin></Button>
-           <Button fx:id="fxTransUp" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#transposeMouseClick" prefHeight="32.0" prefWidth="32.0" text="+" HBox.hgrow="ALWAYS">
-               <HBox.margin>
-                   <Insets left="5.0" />
-               </HBox.margin>
-               <padding>
-                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding></Button>
-           <Button fx:id="fxTransReset" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#transposeMouseClick" prefHeight="32.0" prefWidth="50.0" text="Reset" HBox.hgrow="ALWAYS">
-               <HBox.margin>
-                   <Insets left="10.0" />
-               </HBox.margin>
-               <padding>
-                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-           </Button>
-           <ToggleButton fx:id="fxMinorMajor" mnemonicParsing="false" onAction="#minorMajorButton" prefHeight="32.0" prefWidth="100.0" text="Switch to Minor" HBox.hgrow="ALWAYS">
-               <HBox.margin>
-                   <Insets left="10.0" />
-               </HBox.margin>
-               <padding>
-                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding></ToggleButton>
-           <ToggleButton fx:id="fxShowNotes" graphicTextGap="0.0" mnemonicParsing="false" onAction="#noteNamesHandler" prefHeight="32.0" prefWidth="32.0">
-            <HBox.margin>
-               <Insets left="10.0" />
-            </HBox.margin>
-         </ToggleButton>
-         <ToggleButton fx:id="fxMetronome" graphicTextGap="0.0" onMouseClicked="#onFxMetronomeMouseClick" prefHeight="32.0" prefWidth="32.0" HBox.hgrow="ALWAYS">
-            <HBox.margin>
-               <Insets left="10.0" />
-            </HBox.margin>
-         </ToggleButton>
-         <Label fx:id="fxTempo" onMouseClicked="#fxTempoMouseClicked" onMouseDragged="#fxTempoMouseDragged" text="120 bpm" HBox.hgrow="ALWAYS">
             <HBox.margin>
                <Insets left="10.0" />
             </HBox.margin>
          </Label>
+           <ToggleButton fx:id="fxShowNotes" graphicTextGap="0.0" mnemonicParsing="false" onAction="#noteNamesHandler" prefHeight="32.0" prefWidth="50.0">
+            <HBox.margin>
+               <Insets left="20.0" />
+            </HBox.margin>
+         </ToggleButton>
+         <Button fx:id="fxSpacebarButton" mnemonicParsing="false" prefWidth="200.0" text="Loop">
+            <HBox.margin>
+               <Insets left="10.0" />
+            </HBox.margin>
+            <padding>
+               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+         </Button>
+         <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="32.0" prefWidth="190.0">
+            <children>
+                 <ToggleButton fx:id="fxMinorMajor" mnemonicParsing="false" onAction="#minorMajorButton" prefHeight="32.0" prefWidth="40.0" text="ʘ‿ʘ">
+                     <padding>
+                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  <HBox.margin>
+                     <Insets left="2.0" />
+                  </HBox.margin>
+               </ToggleButton>
+            </children>
+            <HBox.margin>
+               <Insets />
+            </HBox.margin>
+         </HBox>
+         <VBox alignment="CENTER" prefHeight="64.0" prefWidth="100.0" spacing="2.0">
+            <HBox.margin>
+               <Insets left="33.0" />
+            </HBox.margin>
+            <children>
+               <Button fx:id="fxTransUp11" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#transposeMouseClick" prefHeight="32.0" prefWidth="32.0" text="↑" />
+               <HBox alignment="CENTER" prefHeight="32.0" prefWidth="100.0" spacing="2.0">
+                  <children>
+                       <Button fx:id="fxTransDown" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#transposeMouseClick" prefHeight="32.0" prefWidth="32.0" text="←" />
+                     <Button fx:id="fxTransUp1" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#transposeMouseClick" prefHeight="32.0" prefWidth="32.0" text="↓" />
+                       <Button fx:id="fxTransUp" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#transposeMouseClick" prefHeight="32.0" prefWidth="32.0" text="→" />
+                  </children>
+               </HBox>
+            </children>
+         </VBox>
          <BorderPane.margin>
             <Insets bottom="5.0" />
          </BorderPane.margin>
+         <padding>
+            <Insets top="32.0" />
+         </padding>
        </HBox>
    </bottom>
    <left>
       <VBox prefHeight="250.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <ToggleButton fx:id="fxDelay" graphicTextGap="0.0" onAction="#fxDelayHandler" onMouseClicked="#onFxMetronomeMouseClick" prefHeight="50.0" prefWidth="50.0">
-               <graphic>
+            <ToggleButton fx:id="fxDelay" graphicTextGap="0.0" onAction="#fxDelayHandler" prefHeight="50.0" prefWidth="50.0" text="Delay">
+              <!-- <graphic>
                   <ImageView accessibleText="Delay" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView">
                      <image>
                         <Image url="@Images/Delay.png" />
@@ -403,7 +381,7 @@
                         <Rectangle2D />
                      </viewport>
                   </ImageView>
-               </graphic>
+               </graphic> -->
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
@@ -428,8 +406,94 @@
             <Insets left="10.0" top="5.0" />
          </padding>
          <BorderPane.margin>
-            <Insets />
+            <Insets bottom="-32.0" />
          </BorderPane.margin>
       </VBox>
    </left>
+   <right>
+      <HBox prefHeight="160.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="TOP_CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="100.0" spacing="2.0">
+               <children>
+                  <Label prefHeight="20.0" text="Volume :" />
+                       <Slider fx:id="fxVolSlider" blockIncrement="1.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="100.0" value="100.0">
+                           <opaqueInsets>
+                               <Insets left="5.0" />
+                           </opaqueInsets>
+                     <effect>
+                        <InnerShadow height="15.0" radius="7.0" width="15.0">
+                           <color>
+                              <Color red="0.35686275362968445" green="0.35686275362968445" blue="0.35686275362968445" />
+                           </color>
+                        </InnerShadow>
+                     </effect>
+                       </Slider>
+                  <Label text="Decay :" />
+                  <Slider fx:id="fxDecaySlider" blockIncrement="1.0" max="80.0" prefHeight="20.0" prefWidth="100.0">
+                     <effect>
+                        <InnerShadow height="15.0" radius="7.0" width="15.0">
+                           <color>
+                              <Color red="0.35686275362968445" green="0.35686275362968445" blue="0.35686275362968445" />
+                           </color>
+                        </InnerShadow>
+                     </effect>
+                  </Slider>
+                  <Label prefHeight="20.0" text="Loop Length :" />
+                  <HBox alignment="CENTER" prefHeight="20.0" prefWidth="100.0">
+                     <children>
+                      <Button fx:id="fxShortLoop" mnemonicParsing="false" text="Short" textAlignment="CENTER">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <effect>
+                              <InnerShadow height="18.79" radius="8.71" width="18.05">
+                                 <color>
+                                    <Color red="0.35686275362968445" green="0.35686275362968445" blue="0.35686275362968445" />
+                                 </color>
+                              </InnerShadow>
+                           </effect>
+                        </Button>
+                        <Button fx:id="fxLongLoop" mnemonicParsing="false" text="Long" textAlignment="CENTER">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                           <effect>
+                              <InnerShadow height="18.42" radius="8.6175" width="18.05">
+                                 <color>
+                                    <Color red="0.35686275362968445" green="0.35686275362968445" blue="0.35686275362968445" />
+                                 </color>
+                              </InnerShadow>
+                           </effect>
+                        </Button>
+                     </children>
+                  </HBox>
+                       <Slider fx:id="fxLoopLengthSlider" blockIncrement="1.0" focusTraversable="false" majorTickUnit="1.0" max="8.0" min="1.0" minorTickCount="1" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="100.0" snapToTicks="true" value="4.0">
+                           <opaqueInsets>
+                               <Insets left="5.0" />
+                           </opaqueInsets>
+                     <effect>
+                        <InnerShadow height="15.0" radius="7.0" width="15.0">
+                           <color>
+                              <Color red="0.35686275362968445" green="0.35686275362968445" blue="0.35686275362968445" />
+                           </color>
+                        </InnerShadow>
+                     </effect>
+                       </Slider>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" right="7.0" top="10.0" />
+               </padding>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </VBox>
+         </children>
+      </HBox>
+   </right>
 </BorderPane>

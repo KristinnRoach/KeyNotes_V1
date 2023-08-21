@@ -30,7 +30,7 @@ public class PlayerTimeline {
 
     public static void setFadeOutLength() { // slidervalue ranges from 1 - 8
 
-        double quarterNoteDuration = 60000.0 / tempo;
+        double quarterNoteDuration = 60000.0 / tempo; // tempo default 120
 
         fadeOutLength = (quarterNoteDuration / 2) * currentSliderValue;
 
@@ -38,7 +38,7 @@ public class PlayerTimeline {
     }
 
     private static double fadeOutLength;
-    private static int delayCycles = 3; // GUI button?
+    private static int delayCycles = 3; // GUI slider
     private static boolean isDelayOn;
     public static void setIsDelayOn(boolean isIt){
         isDelayOn = isIt;
